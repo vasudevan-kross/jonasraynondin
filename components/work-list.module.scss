@@ -1,0 +1,28 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 200px;
+}
+
+.scrollProgress {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    z-index: 100;
+    mix-blend-mode: difference;
+    font-feature-settings: "tnum";
+}
+
+.header {
+    padding: 100px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    h1 {
+        font-size: 8rem;
+        font-weight: 500;
+        line-height: 1;
+        margin-bottom: 20px;
+    }
+}
