@@ -1,0 +1,56 @@
+.counterWrapper {
+    height: 10vw;
+    overflow: hidden;
+    line-height: 1;
+    position: relative;
+    /* mix-blend-mode moved to parent in WorkList.js */
+}
+
+.counterTrack {
+    display: flex;
+    /* Horizontal layout for digits */
+    height: 100%;
+}
+
+.digitSlot {
+    position: relative;
+    width: 4.5em;
+    /* Adjust based on font width */
+    height: 100%;
+    /* No overflow hidden here if we want them to slide 'through'?
+       Actually yes, overflow hidden on slot prevents seeing the other numbers coming in.
+    */
+    overflow: hidden;
+}
+
+.digit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Or flex-start depending on font baselines */
+
+    font-size: 10vw;
+    font-weight: 400;
+    color: #ffffff;
+    opacity: 1;
+    line-height: 1;
+}
+
+@media (max-width: 1024px) {
+    .digit {
+        font-size: 4.5rem;
+    }
+
+    .counterWrapper {
+        height: 4.5rem;
+    }
+
+    .digitSlot {
+        width: 2.5em;
+    }
+}

@@ -1,7 +1,7 @@
 .list {
     display: flex;
     flex-direction: column;
-    padding-bottom: 200px;
+    /* padding-bottom: 200px; Remove padding to allow clean full scroll */
 }
 
 .scrollProgress {
@@ -15,14 +15,4 @@
     font-feature-settings: "tnum";
 }
 
-.header {
-    padding: 100px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-    h1 {
-        font-size: 8rem;
-        font-weight: 500;
-        line-height: 1;
-        margin-bottom: 20px;
-    }
-}
+/* Removed header styles as .header is removed from DOM */

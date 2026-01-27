@@ -1,14 +1,17 @@
 .item {
     position: relative;
-    padding: 100px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    /* Index - Content - Meta */
-    gap: 40px;
-    min-height: 90vh;
-    /* Give them breathing room */
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    /* Full viewport height */
+    overflow: hidden;
+    display: flex;
+    /* Centering content */
+    justify-content: center;
     align-items: center;
+
+    /* Remove grid and border */
+    border: none;
     transition: opacity 0.4s ease;
 
     &.dimmed {
@@ -16,86 +19,119 @@
     }
 }
 
-.index {
-    font-size: 10vw;
-    /* Massive Number */
-    font-weight: 300;
-    line-height: 1;
-    opacity: 0.5;
-    align-self: flex-start;
-    position: sticky;
-    top: 100px;
-}
+/* Removed .index styles as it is hidden/removed */
 
 .content {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    text-align: center;
+    overflow: hidden;
 }
 
 .imageWrapper {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    margin-bottom: 40px;
+    height: 100%;
+    z-index: 0;
     background-color: #1a1a1a;
 }
 
 .image {
+    object-fit: cover;
     width: 100%;
     height: 120%;
-    /* For Parallax */
-    object-fit: cover;
+    /* For parallax */
     position: absolute;
     top: -10%;
-    will-change: transform;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    /* Dim image slightly to make text pop */
+    z-index: 1;
+}
+
+.textOverlay {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    /* Right aligned */
+    z-index: 2;
+    text-align: right;
+    /* Right align text */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* Align flex items to right */
+    gap: 10px;
+    max-width: 50%;
+    /* Don't overlap numbers */
 }
 
 .title {
-    font-size: 5rem;
+    font-size: 6rem;
+    /* Good size but not full screen */
     text-transform: uppercase;
     font-weight: 500;
     margin: 0;
     line-height: 0.9;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .meta {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    padding-top: 20px;
-    text-align: right;
-    font-size: 1.1rem;
+    /* Stack year and tags/desc */
+    gap: 10px;
+    align-items: flex-end;
+    text-transform: uppercase;
+    font-size: 1rem;
+    opacity: 0.9;
+    width: 100%;
 
     .tags {
         display: flex;
-        flex-direction: column;
-        gap: 5px;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        opacity: 0.7;
+        gap: 10px;
+        font-size: 0.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+
+        span:not(:last-child)::after {
+            content: none;
+        }
     }
 
     .year {
-        font-size: 1.2rem;
+        display: none;
     }
 }
 
+.yearDisplay {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    opacity: 0.7;
+}
+
 @media (max-width: 1024px) {
-    .item {
-        grid-template-columns: 1fr;
-        padding: 60px 0;
-    }
-
-    .index {
-        font-size: 4rem;
-        position: static;
-    }
-
     .title {
-        font-size: 3rem;
+        font-size: 4rem;
+    }
+
+    .meta {
+        font-size: 0.9rem;
+        flex-direction: column;
+        gap: 10px;
     }
 }
