@@ -122,7 +122,7 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
             }
         );
 
-        // Progressive cursor effect for description
+        // Progressive cursor effect for description with beautiful animations
         const descWords = descriptionRef.current?.querySelectorAll('.word');
         if (descWords && descWords.length > 0) {
             ScrollTrigger.create({
@@ -136,23 +136,44 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
 
                     descWords.forEach((word, i) => {
                         if (i === currentWordIndex) {
-                            // Current word gets the cursor
+                            // Current word gets animated cursor with glow and highlight
                             word.style.borderRight = `3px solid ${project.color}`;
-                            word.style.paddingRight = '2px';
+                            word.style.paddingRight = '4px';
+                            word.style.marginRight = '2px';
                             word.style.opacity = '1';
                             word.style.color = 'white';
+                            word.style.background = `linear-gradient(90deg, transparent 0%, ${project.color}15 50%, transparent 100%)`;
+                            word.style.boxShadow = `0 0 15px ${project.color}40`;
+                            word.style.transform = 'translateY(-1px)';
+                            word.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                            word.style.filter = 'none';
+                            word.style.animation = `cursorBlink 1s ease-in-out infinite`;
                         } else if (i < currentWordIndex) {
-                            // Already read words
+                            // Already read words with smooth reveal
                             word.style.borderRight = 'none';
                             word.style.paddingRight = '0';
+                            word.style.marginRight = '0';
                             word.style.opacity = '1';
                             word.style.color = 'white';
+                            word.style.background = 'transparent';
+                            word.style.boxShadow = 'none';
+                            word.style.transform = 'translateY(0)';
+                            word.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                            word.style.filter = 'none';
+                            word.style.animation = 'none';
                         } else {
-                            // Not yet read words
+                            // Not yet read words with subtle presence
                             word.style.borderRight = 'none';
                             word.style.paddingRight = '0';
+                            word.style.marginRight = '0';
                             word.style.opacity = '0.3';
-                            word.style.color = 'rgba(255, 255, 255, 0.5)';
+                            word.style.color = 'rgba(255, 255, 255, 0.45)';
+                            word.style.background = 'transparent';
+                            word.style.boxShadow = 'none';
+                            word.style.transform = 'translateY(0)';
+                            word.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                            word.style.filter = 'none';
+                            word.style.animation = 'none';
                         }
                     });
                 }
@@ -197,6 +218,8 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
                         fill
                         className={styles.image}
                         priority={index < 2}
+                        quality={95}
+                        sizes="100vw"
                     />
                     <div className={styles.overlay} />
                 </div>

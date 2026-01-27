@@ -39,6 +39,7 @@
     height: 100%;
     z-index: 0;
     background-color: #1a1a1a;
+    overflow: hidden;
 }
 
 .image {
@@ -48,13 +49,23 @@
     /* For parallax */
     position: absolute;
     top: -10%;
+    /* Enhanced image quality and sharpness */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    filter: contrast(1.05) saturate(1.1) brightness(1.05);
+    transition: transform 0.3s ease-out;
 }
 
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    /* Dim image slightly to make text pop */
+    /* Subtle vignette effect instead of heavy dark overlay */
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.35) 70%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
     z-index: 1;
     pointer-events: none;
 }
@@ -114,18 +125,36 @@
 .description {
     max-width: 400px;
     font-size: 0.9rem;
-    line-height: 1.5;
+    line-height: 1.8;
     margin: 0;
     opacity: 0.9;
 
     :global(.word) {
         display: inline-block;
         margin-right: 0.3em;
-        transition: all 0.2s ease;
-        opacity: 0.3;
-        color: rgba(255, 255, 255, 0.5);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0.25;
+        color: rgba(255, 255, 255, 0.4);
         border-right: none;
         padding-right: 0;
+        padding: 2px 4px;
+        border-radius: 3px;
+        position: relative;
+        will-change: opacity, transform, background, box-shadow;
+    }
+}
+
+// Cursor blink animation for beautiful UX
+:global {
+    @keyframes cursorBlink {
+        0%, 100% {
+            border-right-color: currentColor;
+            opacity: 1;
+        }
+        50% {
+            border-right-color: transparent;
+            opacity: 0.85;
+        }
     }
 }
 
