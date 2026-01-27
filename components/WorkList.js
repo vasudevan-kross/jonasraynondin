@@ -24,7 +24,7 @@ export default function WorkList({ projects }) {
                 left: '20px',
                 zIndex: 100, // Increased z-index
                 pointerEvents: 'none',
-                mixBlendMode: 'difference' // MOVED blend mode here to ensure it applies to the whole fixed block against the backdrop
+                // mixBlendMode: 'difference' // MOVED blend mode here to ensure it applies to the whole fixed block against the backdrop
             }}>
                 <WorkCounter currentId={activeProjectId} />
             </div>

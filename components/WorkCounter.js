@@ -33,8 +33,8 @@ function Digit({ value }) {
         gsap.set(newEl, { y: direction * 100 + "%" });
 
         const tl = gsap.timeline();
-        tl.to(oldEl, { y: direction * -100 + "%", duration: 0.5, ease: "power3.inOut" }, 0);
-        tl.to(newEl, { y: "0%", duration: 0.5, ease: "power3.inOut" }, 0)
+        tl.to(oldEl, { y: direction * -100 + "%", duration: 0.9, ease: "power2.inOut" }, 0);
+        tl.to(newEl, { y: "0%", duration: 0.9, ease: "power2.inOut" }, 0)
             .call(() => {
                 prevValue.current = value;
             });
