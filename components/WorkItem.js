@@ -122,83 +122,42 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
             }
         );
 
-        // Year scroll animation
-        gsap.to(yearRef.current, {
-            y: -50,
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: el,
-                start: "top top",
-                end: "+=50%",
-                scrub: 1,
-            },
-        });
-
-        // Content scroll animation
-        gsap.to(contentTopRef.current, {
-            y: -100,
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: el,
-                start: "top top",
-                end: "+=50%",
-                scrub: 1,
-            },
-        });
-
-        // Progressive text highlight for description words
+        // Progressive cursor effect for description
         const descWords = descriptionRef.current?.querySelectorAll('.word');
         if (descWords && descWords.length > 0) {
-            descWords.forEach((word, i) => {
-                gsap.fromTo(
-                    word,
-                    {
-                        opacity: 0.3,
-                        color: 'rgba(255, 255, 255, 0.5)'
-                    },
-                    {
-                        opacity: 1,
-                        color: project.color,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: el,
-                            start: "top 60%",
-                            end: "center 40%",
-                            scrub: true,
-                            onUpdate: (self) => {
-                                const progress = self.progress;
-                                const wordProgress = (i / descWords.length);
-                                if (progress > wordProgress) {
-                                    gsap.to(word, { opacity: 1, color: project.color, duration: 0.3 });
-                                }
-                            }
+            ScrollTrigger.create({
+                trigger: el,
+                start: "top 60%",
+                end: "center 30%",
+                scrub: true,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    const currentWordIndex = Math.floor(progress * descWords.length);
+
+                    descWords.forEach((word, i) => {
+                        if (i === currentWordIndex) {
+                            // Current word gets the cursor
+                            word.style.borderRight = `3px solid ${project.color}`;
+                            word.style.paddingRight = '2px';
+                            word.style.opacity = '1';
+                            word.style.color = 'white';
+                        } else if (i < currentWordIndex) {
+                            // Already read words
+                            word.style.borderRight = 'none';
+                            word.style.paddingRight = '0';
+                            word.style.opacity = '1';
+                            word.style.color = 'white';
+                        } else {
+                            // Not yet read words
+                            word.style.borderRight = 'none';
+                            word.style.paddingRight = '0';
+                            word.style.opacity = '0.3';
+                            word.style.color = 'rgba(255, 255, 255, 0.5)';
                         }
-                    }
-                );
+                    });
+                }
             });
         }
-
-        // Progressive highlight for year
-        gsap.fromTo(
-            yearRef.current,
-            {
-                opacity: 0.3,
-                color: 'rgba(255, 255, 255, 0.5)'
-            },
-            {
-                opacity: 1,
-                color: '#ffffff',
-                ease: "none",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 60%",
-                    end: "top 30%",
-                    scrub: true,
-                }
-            }
-        );
 
         // Active Index Trigger with animation trigger
         ScrollTrigger.create({

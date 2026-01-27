@@ -67,9 +67,8 @@
     z-index: 2;
     font-size: 1.2rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.5);
-    opacity: 0.3;
-    transition: color 0.3s ease, opacity 0.3s ease;
+    color: white;
+    opacity: 0.9;
 }
 
 /* Content at center top */
@@ -117,13 +116,16 @@
     font-size: 0.9rem;
     line-height: 1.5;
     margin: 0;
+    opacity: 0.9;
 
     :global(.word) {
         display: inline-block;
         margin-right: 0.3em;
-        transition: color 0.3s ease, opacity 0.3s ease;
+        transition: all 0.2s ease;
         opacity: 0.3;
         color: rgba(255, 255, 255, 0.5);
+        border-right: none;
+        padding-right: 0;
     }
 }
 
@@ -132,8 +134,6 @@
         top: 20px;
         right: 20px;
         font-size: 1rem;
-        color: rgba(255, 255, 255, 0.5);
-        opacity: 0.3;
     }
 
     .contentTop {
@@ -155,10 +155,5 @@
     .description {
         font-size: 0.85rem;
         max-width: 100%;
-
-        :global(.word) {
-            opacity: 0.3;
-            color: rgba(255, 255, 255, 0.5);
-        }
     }
 }
