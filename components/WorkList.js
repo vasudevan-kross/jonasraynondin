@@ -11,8 +11,9 @@ export default function WorkList({ projects }) {
     const [progress, setProgress] = useState(0);
     const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id || "01");
     const [displayName, setDisplayName] = useState("");
-    const [isListOpen, setIsListOpen] = useState(false);
     const [hoveredProjectId, setHoveredProjectId] = useState(null);
+    const [hoverIndicatorStyle, setHoverIndicatorStyle] = useState({});
+    const [arrowDirection, setArrowDirection] = useState(null); // 'up', 'down', or null
 
     // Get active project
     const activeProject = projects.find(p => p.id === activeProjectId) || projects[0];
@@ -51,7 +52,6 @@ export default function WorkList({ projects }) {
 
     const goToProject = (projectId) => {
         setActiveProjectId(projectId);
-        setIsListOpen(false);
         const element = document.getElementById(`project-${projectId}`);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -61,6 +61,50 @@ export default function WorkList({ projects }) {
     useLenis(({ progress }) => {
         setProgress(Math.round(progress * 100));
     });
+
+    // Update hover indicator position
+    useEffect(() => {
+        const activeIndex = projects.findIndex(p => p.id === activeProjectId);
+        setArrowDirection(null); // Reset arrow when active project changes
+        updateHoverIndicator(activeIndex);
+    }, [activeProjectId, projects]);
+
+    const updateHoverIndicator = (index) => {
+        const listItem = document.querySelector(`#project-item-${projects[index]?.id}`);
+        if (listItem) {
+            const button = listItem.querySelector('.nav-project');
+            if (button) {
+                setHoverIndicatorStyle({
+                    transform: `translateY(${listItem.offsetTop}px)`,
+                    height: `${button.offsetHeight}px`,
+                });
+            }
+        }
+    };
+
+    const handleProjectHover = (projectId) => {
+        setHoveredProjectId(projectId);
+        const index = projects.findIndex(p => p.id === projectId);
+        const activeIndex = projects.findIndex(p => p.id === activeProjectId);
+
+        // Determine arrow direction
+        if (index < activeIndex) {
+            setArrowDirection('up');
+        } else if (index > activeIndex) {
+            setArrowDirection('down');
+        } else {
+            setArrowDirection(null); // Same slide, no arrow
+        }
+
+        updateHoverIndicator(index);
+    };
+
+    const handleProjectLeave = () => {
+        setHoveredProjectId(null);
+        setArrowDirection(null);
+        const activeIndex = projects.findIndex(p => p.id === activeProjectId);
+        updateHoverIndicator(activeIndex);
+    };
 
     // Text scramble effect
     useEffect(() => {
@@ -144,9 +188,8 @@ export default function WorkList({ projects }) {
                     )}
 
                     <button
-                        className={`nav-button nav-button--list ${isListOpen ? 'is-active' : ''}`}
+                        className="nav-button nav-button--list"
                         aria-label="Show project list"
-                        onClick={() => setIsListOpen(!isListOpen)}
                     >
                         <div className="nav-button__icon">
                             <span></span>
@@ -156,12 +199,38 @@ export default function WorkList({ projects }) {
 
                     <div className="nav-projects">
                         {/* Project List */}
-                        <ul className={`nav-projects__list ${isListOpen ? 'opened' : ''}`}>
+                        <ul className="nav-projects__list">
+                            <div
+                                className="nav-projects__list__hover"
+                                style={{
+                                    ...hoverIndicatorStyle,
+                                    transition: 'transform 0.4s cubic-bezier(0.4, 1, 0.7, 1), height 0.4s cubic-bezier(0.4, 1, 0.7, 1)',
+                                    opacity: arrowDirection ? 1 : 0
+                                }}
+                            >
+                                {arrowDirection && (
+                                    <div className="nav-projects__list__hover__icon">
+                                        <svg
+                                            width="8"
+                                            height="8"
+                                            viewBox="0 0 8 8"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            style={{
+                                                transform: arrowDirection === 'up' ? 'rotate(-90deg)' : 'rotate(90deg)'
+                                            }}
+                                        >
+                                            <path d="M4.5191 0L7.61198 3.06581C7.87041 3.32191 8 3.66096 8 4C8 4.33904 7.87041 4.67809 7.61198 4.93419L4.5191 8C4.29437 7.80778 4.08372 7.60022 3.8941 7.37376L6.8533 4.44043H0.0225687C0.0104561 4.29498 0 4 0 4C0 4 0.010417 3.70525 0.0225682 3.55957H6.8533L3.8941 0.626237C4.08382 0.399662 4.29424 0.192296 4.5191 0Z" fill="currentColor"></path>
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
                             {projects.map((project) => (
                                 <li
                                     key={project.id}
-                                    onMouseEnter={() => setHoveredProjectId(project.id)}
-                                    onMouseLeave={() => setHoveredProjectId(null)}
+                                    id={`project-item-${project.id}`}
+                                    onMouseEnter={() => handleProjectHover(project.id)}
+                                    onMouseLeave={handleProjectLeave}
                                 >
                                     <button
                                         className={`nav-project ${project.id === activeProjectId ? 'active' : ''}`}
@@ -213,8 +282,8 @@ export default function WorkList({ projects }) {
             {/* Counter at top left */}
             <div style={{
                 position: 'fixed',
-                top: '20px',
-                left: '20px',
+                top: 'clamp(0.675rem, 0.675rem + 1.2 / 960 * (100vw - 480px), 1.125rem)',
+                left: 'clamp(0.675rem, 0.675rem + 1.2 / 960 * (100vw - 480px), 1.125rem)',
                 zIndex: 100,
                 pointerEvents: 'none',
             }}>
@@ -222,9 +291,9 @@ export default function WorkList({ projects }) {
             </div>
 
             {/* Progress at middle right */}
-            <div className={styles.progressFixed}>
+            <span className="projects__progress">
                 {progress} %
-            </div>
+            </span>
 
             {/* Fixed bottom box */}
             {/* <div className={styles.bottomBoxFixed}>

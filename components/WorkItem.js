@@ -218,7 +218,7 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
                         fill
                         className={styles.image}
                         priority={index < 2}
-                        quality={95}
+                        quality={[75, 95]}
                         sizes="100vw"
                     />
                     <div className={styles.overlay} />

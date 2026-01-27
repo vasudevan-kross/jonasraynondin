@@ -9,14 +9,110 @@
   --color-dark-3: #6d6a67;
   --color-light: #fdfaf8;
   --max-width: 1392px;
+  --scrollbar-width: 4px;
+
 }
 
+html body ::selection {
+  background: var(--color-light);
+  color: var(--color-dark-1);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark-1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-light);
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
 
 * {
-  box-sizing: border-box;
+
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
+
+abbr,
+address,
+article,
+aside,
+audio,
+b,
+blockquote,
+body,
+body div,
+caption,
+cite,
+code,
+dd,
+del,
+dfn,
+dl,
+dt,
+em,
+fieldset,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hgroup,
+html,
+i,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+mark,
+menu,
+nav,
+object,
+ol,
+p,
+pre,
+q,
+samp,
+section,
+small,
+span,
+strong,
+sub,
+sup,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+ul,
+var,
+video a {
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
 
 html,
 body,
@@ -37,11 +133,113 @@ a {
   text-decoration: none;
 }
 
+embed,
+img,
+object {
+  max-width: 100%;
+}
+
+img {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 /* Utilities */
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+.projects__progress {
+  font-size: clamp(.875rem, .875rem + 2 / 960 * (100vw - 480px), 1.125rem);
+  left: 100vw;
+  line-height: 1.2em;
+  line-height: 1.1em;
+  pointer-events: none;
+  position: fixed;
+  text-transform: uppercase;
+  top: 50%;
+  transform: translate(calc(-100% - clamp(1rem, 1rem + 8 / 960 * (100vw - 480px), 2rem)), -50%);
+  width: -moz-max-content;
+  width: max-content;
+  z-index: 3;
+}
+
+.projects__count {
+  color: var(--color-light);
+  font-size: clamp(6.25rem, 6.25rem + 100 / 960 * (100vw - 480px), 25rem);
+  left: clamp(.675rem, .675rem + 1.2 / 960 * (100vw - 480px), 1.125rem);
+  letter-spacing: -.03em;
+  line-height: 1em;
+  position: fixed;
+  text-transform: uppercase;
+  top: clamp(-.3375rem, -.3375rem + -.6 / 960 * (100vw - 480px), -.5625rem);
+  z-index: 100;
+}
+
+.rolling-number {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.rolling-number,
+.rolling-number__digit {
+  line-height: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.rolling-number__digit {
+  display: inline-block;
+  height: 1em;
+  min-width: .6em;
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform .6s cubic-bezier(.65, 0, .35, 1);
+}
+
+.projects__count .rolling-number__digit:last-of-type {
+  margin-left: clamp(-.3125rem, -.3125rem + -10 / 960 * (100vw - 480px), -.9375rem);
+}
+
+.rolling-number__digit-track {
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateY(0);
+  width: 100%;
+  will-change: transform;
+}
+
+.rolling-number__digit-item {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  height: 1em;
+  justify-content: center;
+  line-height: 1;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.body-s-style,
+.body-s-style-uppercase {
+  font-size: clamp(.875rem, .875rem + 2 / 960 * (100vw - 480px), 1.125rem);
+}
+
+.body-s-style-uppercase {
+  line-height: 1.1em;
+  text-transform: uppercase;
 }
 
 .block-project {
@@ -398,6 +596,12 @@ a {
   visibility: visible
 }
 
+.nav-button--list:hover ~ .nav-projects .nav-projects__list,
+.nav-projects__list:hover {
+  opacity: 1;
+  visibility: visible
+}
+
 .desktop .nav-projects__list:hover {
   -webkit-backdrop-filter: blur(30px);
   backdrop-filter: blur(30px);
@@ -432,6 +636,22 @@ a {
 .nav-projects__list__hover__icon svg {
   height: clamp(.45rem, .45rem + .8/960 * (100vw - 480px), .75rem);
   width: clamp(.45rem, .45rem + .8/960 * (100vw - 480px), .75rem)
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+a,
+button {
+  cursor: pointer;
+  font-size: 100%;
 }
 
 .nav-projects__list li {
@@ -608,6 +828,7 @@ a {
 .nav-project.active .nav-project__title {
   opacity: 1
 }
+
 
 .nav-project__number {
   font-size: clamp(.45rem, .45rem + .8/960 * (100vw - 480px), .75rem);
@@ -916,6 +1137,12 @@ a {
 }
 
 .nav-projects__list.opened {
+  opacity: 1;
+  visibility: visible
+}
+
+.nav-button--list:hover ~ .nav-projects .nav-projects__list,
+.nav-projects__list:hover {
   opacity: 1;
   visibility: visible
 }
