@@ -13,11 +13,15 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
     const titleRef = useRef(null);
     const yearRef = useRef(null);
     const contentTopRef = useRef(null);
+    const descriptionRef = useRef(null);
     const [displayTitle, setDisplayTitle] = useState("");
     const [shouldAnimate, setShouldAnimate] = useState(false);
     const hasInitialized = useRef(false);
 
     const onVisibleRef = useRef(onVisible);
+
+    // Split description into words for progressive reveal
+    const descriptionWords = project.description.split(' ');
 
     // Keep ref updated
     useEffect(() => {
@@ -144,6 +148,58 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
             },
         });
 
+        // Progressive text highlight for description words
+        const descWords = descriptionRef.current?.querySelectorAll('.word');
+        if (descWords && descWords.length > 0) {
+            descWords.forEach((word, i) => {
+                gsap.fromTo(
+                    word,
+                    {
+                        opacity: 0.3,
+                        color: 'rgba(255, 255, 255, 0.5)'
+                    },
+                    {
+                        opacity: 1,
+                        color: project.color,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 60%",
+                            end: "center 40%",
+                            scrub: true,
+                            onUpdate: (self) => {
+                                const progress = self.progress;
+                                const wordProgress = (i / descWords.length);
+                                if (progress > wordProgress) {
+                                    gsap.to(word, { opacity: 1, color: project.color, duration: 0.3 });
+                                }
+                            }
+                        }
+                    }
+                );
+            });
+        }
+
+        // Progressive highlight for year
+        gsap.fromTo(
+            yearRef.current,
+            {
+                opacity: 0.3,
+                color: 'rgba(255, 255, 255, 0.5)'
+            },
+            {
+                opacity: 1,
+                color: '#ffffff',
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 60%",
+                    end: "top 30%",
+                    scrub: true,
+                }
+            }
+        );
+
         // Active Index Trigger with animation trigger
         ScrollTrigger.create({
             trigger: el,
@@ -162,18 +218,18 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
         return () => {
             ScrollTrigger.getAll().forEach(t => t.kill());
         };
-    }, []);
+    }, [project.color]);
 
     return (
         <div
             ref={containerRef}
-            className={styles.item}
+            className={styles.page}
             onMouseEnter={onHover}
             onMouseLeave={onLeave}
         >
             {/* <div className={styles.index} style={{ opacity: 0 }}>{project.id}</div> Removed logic entirely */}
 
-            <div className={styles.content}>
+            <section className="block-project">
                 <div className={styles.imageWrapper}>
                     <Image
                         ref={imageRef}
@@ -186,26 +242,38 @@ export default function WorkItem({ project, index, onHover, onLeave, onVisible }
                     <div className={styles.overlay} />
                 </div>
 
-                {/* Year at top right */}
-                <div ref={yearRef} className={styles.yearDisplay}>{project.year}</div>
 
-                {/* Content at center top */}
-                <div ref={contentTopRef} className={styles.contentTop}>
-                    <h2 ref={titleRef} className={styles.title}>
-                        {displayTitle || '\u00A0'}
-                    </h2>
-
-                    <div className={styles.tags}>
-                        {project.tags.map((tag, i) => (
-                            <span key={i}>{tag}</span>
-                        ))}
+                <div ref={contentTopRef} className="block-project__inner">
+                    <div className="block-project__inner__header">
+                        <h2 ref={titleRef}>
+                            {displayTitle || '\u00A0'}
+                        </h2>
+                        {/* Year at top right */}
+                        <div ref={yearRef} className={styles.yearDisplay}>{project.year}</div>
                     </div>
 
-                    <p className={styles.description}>
-                        {project.description}
-                    </p>
+                    {/* Content at center top */}
+                    <div className="block-project__inner__infos">
+
+                        <div className="block-project__inner__infos__tags">
+                            {project.tags.map((tag, i) => (
+                                <span className="tag" key={i}>{tag}</span>
+                            ))}
+                        </div>
+
+                        <div className="block-project__inner__infos__text">
+                            <p ref={descriptionRef} className={styles.description}>
+                                {descriptionWords.map((word, i) => (
+                                    <span key={i} className="word">
+                                        {word}
+                                    </span>
+                                ))}
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+            </section>
 
             {/* Previously meta was here, now integrated into textOverlay */}
         </div>

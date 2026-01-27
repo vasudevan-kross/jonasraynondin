@@ -62,6 +62,61 @@ export default function WorkList({ projects }) {
 
     return (
         <>
+            <div className="nav-overlay active"></div>
+            {/* Fixed bottom box */}
+            <div className="nav nav--projects">
+                <div className="nav-projects-hoverable-zone">
+                    <a href="/" className="nav-button nav-button--close is-visible" title="Go to Home"><div className="nav-button__icon"><span ></span><span ></span></div></a>
+                    <button className="nav-button nav-button--up is-visible" aria-label="Previous project">
+                        <div className="nav-button__icon">
+                            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.5191 0L7.61198 3.06581C7.87041 3.32191 8 3.66096 8 4C8 4.33904 7.87041 4.67809 7.61198 4.93419L4.5191 8C4.29437 7.80778 4.08372 7.60022 3.8941 7.37376L6.8533 4.44043H0.0225687C0.0104561 4.29498 0 4 0 4C0 4 0.010417 3.70525 0.0225682 3.55957H6.8533L3.8941 0.626237C4.08382 0.399662 4.29424 0.192296 4.5191 0Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <button className="nav-button nav-button--down is-visible" aria-label="Next project">
+                        <div className="nav-button__icon">
+                            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.5191 0L7.61198 3.06581C7.87041 3.32191 8 3.66096 8 4C8 4.33904 7.87041 4.67809 7.61198 4.93419L4.5191 8C4.29437 7.80778 4.08372 7.60022 3.8941 7.37376L6.8533 4.44043H0.0225687C0.0104561 4.29498 0 4 0 4C0 4 0.010417 3.70525 0.0225682 3.55957H6.8533L3.8941 0.626237C4.08382 0.399662 4.29424 0.192296 4.5191 0Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <button className="nav-button nav-button--list is-visible" aria-label="Show project list">
+                        <div className="nav-button__icon">
+                            <span>
+                            </span><span>
+                            </span>
+                        </div>
+                    </button>
+                    <div className="nav-projects">
+                        <div className="nav-project-current active">
+                            <div className="nav-project-current__media">
+                                <img
+                                    src={activeProject.image}
+                                    alt={activeProject.title}
+                                    fill="true"
+                                    loading="lazy"
+                                    className={styles.thumbnailImage}
+                                    style={{ objectFit: 'cover' }}
+                                />
+                            </div>
+                            <div className="nav-project-current__inner">
+                                <span className="nav-project-current__inner__number">
+                                    {activeProject.id}/{String(projects.length).padStart(2, '0')}
+                                </span>
+                                <span className="nav-project-current__inner__title">
+                                    {displayName}
+                                </span>
+                            </div>
+                            <div className="nav-project-current__icon" style={{ backgroundColor: 'rgb(16, 6, 159' }}>
+                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" className="color-light">
+                                    <path d="M4.5191 0L7.61198 3.06581C7.87041 3.32191 8 3.66096 8 4C8 4.33904 7.87041 4.67809 7.61198 4.93419L4.5191 8C4.29437 7.80778 4.08372 7.60022 3.8941 7.37376L6.8533 4.44043H0.0225687C0.0104561 4.29498 0 4 0 4C0 4 0.010417 3.70525 0.0225682 3.55957H6.8533L3.8941 0.626237C4.08382 0.399662 4.29424 0.192296 4.5191 0Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {/* Counter at top left */}
             <div style={{
                 position: 'fixed',
@@ -79,7 +134,7 @@ export default function WorkList({ projects }) {
             </div>
 
             {/* Fixed bottom box */}
-            <div className={styles.bottomBoxFixed}>
+            {/* <div className={styles.bottomBoxFixed}>
                 <div className={styles.thumbnail}>
                     <Image
                         src={activeProject.image}
@@ -99,7 +154,7 @@ export default function WorkList({ projects }) {
                         <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </a>
-            </div>
+            </div> */}
 
             <div className="container" style={{ position: 'relative', width: '100%', maxWidth: '100%', padding: 0 }}>
 

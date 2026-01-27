@@ -3,7 +3,7 @@ import WorkList from "@/components/WorkList";
 
 export default function Home() {
   return (
-    <main>
+    <main className="desktop">
       <WorkList projects={projects} />
     </main>
   );

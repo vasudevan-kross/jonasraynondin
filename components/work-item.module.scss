@@ -53,9 +53,10 @@
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     /* Dim image slightly to make text pop */
     z-index: 1;
+    pointer-events: none;
 }
 
 /* Year at top right */
@@ -66,8 +67,9 @@
     z-index: 2;
     font-size: 1.2rem;
     font-weight: 400;
-    color: white;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 0.3;
+    transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 /* Content at center top */
@@ -113,9 +115,16 @@
 .description {
     max-width: 400px;
     font-size: 0.9rem;
-    opacity: 0.9;
     line-height: 1.5;
     margin: 0;
+
+    :global(.word) {
+        display: inline-block;
+        margin-right: 0.3em;
+        transition: color 0.3s ease, opacity 0.3s ease;
+        opacity: 0.3;
+        color: rgba(255, 255, 255, 0.5);
+    }
 }
 
 @media (max-width: 1024px) {
@@ -123,6 +132,8 @@
         top: 20px;
         right: 20px;
         font-size: 1rem;
+        color: rgba(255, 255, 255, 0.5);
+        opacity: 0.3;
     }
 
     .contentTop {
@@ -144,5 +155,10 @@
     .description {
         font-size: 0.85rem;
         max-width: 100%;
+
+        :global(.word) {
+            opacity: 0.3;
+            color: rgba(255, 255, 255, 0.5);
+        }
     }
 }
