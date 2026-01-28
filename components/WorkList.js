@@ -1,10 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import styles from "./work-list.module.scss";
 import WorkItem from "./WorkItem";
 import WorkCounter from "./WorkCounter";
-import { useLenis } from "@studio-freight/react-lenis";
+import { useLenis } from "lenis/react";
 
 export default function WorkList({ projects }) {
     const [hoveredIndex, setHoveredIndex] = useState(null);
