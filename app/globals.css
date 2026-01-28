@@ -140,7 +140,6 @@ object {
 }
 
 img {
-  user-drag: none;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-drag: none;
@@ -596,7 +595,7 @@ img {
   visibility: visible
 }
 
-.nav-button--list:hover ~ .nav-projects .nav-projects__list,
+.nav-button--list:hover~.nav-projects .nav-projects__list,
 .nav-projects__list:hover {
   opacity: 1;
   visibility: visible
@@ -1141,7 +1140,7 @@ button {
   visibility: visible
 }
 
-.nav-button--list:hover ~ .nav-projects .nav-projects__list,
+.nav-button--list:hover~.nav-projects .nav-projects__list,
 .nav-projects__list:hover {
   opacity: 1;
   visibility: visible
